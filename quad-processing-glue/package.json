@@ -2,10 +2,12 @@
   "name": "quad-processing-glue",
   "version": "1.0.0",
   "description": "wasm glue",
-  "main": "index.js",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
+    "start": "node --experimental-wasi-unstable-preview1 --experimental-wasm-bigint .\\dist\\src\\index.js",
     "build": "tsc && npm run copy-files",
-    "copy-files": "copyfiles -u 1 wasm/* dist",
+    "copy-files": "copyfiles -u 1 wasm/* dist/wasm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrew Vetovitz",

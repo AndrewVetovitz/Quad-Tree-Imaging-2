@@ -3,11 +3,16 @@ import { useState, useEffect } from 'react';
 import ImageUpload from '../imageUpload/ImageUpload';
 import DisplayImage from '../displayImage/DisplayImage';
 import Button from '@material-ui/core/Button';
+import QuadTreeImaging  from 'quad-processing-glue';
 
 function App() {
   const [file, setFile] = useState<string>('');
   const [isSubdividing, setisSubdividing] = useState<boolean>(false);
   const [counter, setCounter] = useState(0);
+
+  let test: QuadTreeImaging = new QuadTreeImaging();
+  test.testPrint();
+  // test.
 
   useEffect(() => {
     let intervalId: any;
