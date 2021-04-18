@@ -1,0 +1,21 @@
+{
+  "name": "quad-processing-glue",
+  "version": "1.0.0",
+  "description": "wasm glue",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && npm run copy-files",
+    "copy-files": "copyfiles -u 1 wasm/* dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Vetovitz",
+  "license": "ISC",
+  "dependencies": {
+    "cross-fetch": "^3.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.2.4"
+  }
+}

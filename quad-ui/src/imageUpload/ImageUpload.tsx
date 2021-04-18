@@ -1,29 +1,37 @@
-
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
-class ImageUpload extends React.Component<any, any> {
-    constructor(props: any){
+class ImageUpload extends React.Component<ImageUploaderProps, ImageUploaderState> {
+    constructor(props: ImageUploaderProps){
         super(props)
-        this.state = {
-          file: null
-        }
+
         this.handleChange = this.handleChange.bind(this)
       }
 
       handleChange(event: any) {
-        this.setState({
-          file: URL.createObjectURL(event.target.files[0])
-        })
+        const url: string = URL.createObjectURL(event.target.files[0]);
+        this.props.setFile(url);
+        console.log(url);
       }
 
       render() {
         return (
-          <div>
-            <input type="file" onChange={this.handleChange}/>
-            <img alt="uploaded file" src={this.state.file}/>
-          </div>
+          <Button variant="contained" component="label">
+            Upload File
+            <input
+              type="file"
+              hidden
+              onChange={this.handleChange}
+            />
+          </Button>
         );
       }
 }
+
+interface ImageUploaderProps {
+  setFile: Function
+};
+
+interface ImageUploaderState {};
 
 export default ImageUpload;
