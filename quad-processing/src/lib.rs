@@ -1,6 +1,7 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+// use QuadTree;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
