@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.buttons {
+	text-align: center;
+	height: 10vh;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.buttons > li {
+	display: inline-block;
+	margin: auto;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.button {
+
+}

@@ -1,0 +1,15 @@
+.image {
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	height: 85vh;
+}
+
+.rendered-image {
+	border-radius: 0px;
+	border-style: solid;
+	border-width: 5px;
+	border-color: black;
+}
