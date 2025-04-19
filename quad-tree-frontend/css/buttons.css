@@ -2,7 +2,7 @@
 
 .buttons {
 	text-align: center;
-	height: 10vh;
+	height: 5vh;
 	margin-top: 0;
 	margin-bottom: 0;
 }
@@ -12,8 +12,4 @@
 	margin: auto;
 	margin-left: 10px;
 	margin-right: 10px;
-}
-
-.button {
-
 }
