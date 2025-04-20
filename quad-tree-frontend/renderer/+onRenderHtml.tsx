@@ -1,13 +1,11 @@
-export { render };
-// See https://vike.dev/data-fetching
-export const passToClient = ["pageProps", "urlPathname"];
+export default onRenderClient;
 
 import ReactDOMServer from "react-dom/server";
 import { PageShell } from "./PageShell";
 import { escapeInject, dangerouslySkipEscape } from "vike/server";
 import type { PageContextServer } from "./types";
 
-async function render(pageContext: PageContextServer) {
+async function onRenderClient(pageContext: PageContextServer) {
 	const { Page, pageProps } = pageContext;
 	// This render() hook only supports SSR, see https://vike.dev/render-modes for how to modify render() to support SPA
 	if (!Page)

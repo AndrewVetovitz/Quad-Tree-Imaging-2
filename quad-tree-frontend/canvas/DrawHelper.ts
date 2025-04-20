@@ -10,22 +10,16 @@ class DrawHelper {
 	canvasWidth: number;
 	imageData: ImageData;
 	imageDataCopy: ImageData;
-	heightOffset: number;
-	widthOffset: number;
 
 	constructor(
 		context: CanvasRenderingContext2D,
 		imageData: ImageData,
-		canvasWidth: number,
-		heightOffset: number,
-		widthOffset: number
+		canvasWidth: number
 	) {
 		this.context = context;
 		this.canvasWidth = canvasWidth;
 		this.imageData = imageData;
 		this.imageDataCopy = structuredClone(imageData);
-		this.heightOffset = heightOffset;
-		this.widthOffset = widthOffset;
 	}
 
 	drawBorder(
@@ -64,11 +58,7 @@ class DrawHelper {
 	}
 
 	drawToCanvas() {
-		this.context.putImageData(
-			this.imageData,
-			this.widthOffset,
-			this.heightOffset
-		);
+		this.context.putImageData(this.imageData, 0, 0);
 	}
 
 	resetImageData() {

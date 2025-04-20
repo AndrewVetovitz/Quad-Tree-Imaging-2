@@ -21,11 +21,11 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"sirv": "2.0.3",
-		"tailwindcss": "^4.1.4",
+		"tailwindcss": "4.1.4",
 		"ts-node": "10.9.2",
 		"typescript": "5.8.3",
-		"vite": "6.3.1",
-		"vike": "0.4.142"
+		"vite": "6.3.2",
+		"vike": "0.4.228"
 	},
 	"devDependencies": {
 		"@types/compression": "1.7.2",

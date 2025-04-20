@@ -11,64 +11,58 @@
 //  - HatTip (https://github.com/hattipjs/hattip)
 //    - You can use Bati (https://batijs.github.io/) to scaffold a vike + HatTip app. Note that Bati generates apps that use the V1 design (https://vike.dev/migration/v1-design) and Vike packages (https://vike.dev/vike-packages)
 
-import express from 'express'
-import compression from 'compression'
-import { renderPage } from 'vike/server'
-import { root } from './root.js'
-const isProduction = process.env.NODE_ENV === 'production'
+import express from "express";
+import compression from "compression";
+import { renderPage, createDevMiddleware } from "vike/server";
+import { root } from "./root.js";
+const isProduction = process.env.NODE_ENV === "production";
 
-startServer()
+startServer();
 
 async function startServer() {
-  const app = express()
+	const app = express();
 
-  app.use(compression())
+	app.use(compression());
 
-  // Vite integration
-  if (isProduction) {
-    // In production, we need to serve our static assets ourselves.
-    // (In dev, Vite's middleware serves our static assets.)
-    const sirv = (await import('sirv')).default
-    app.use(sirv(`${root}/dist/client`))
-  } else {
-    // We instantiate Vite's development server and integrate its middleware to our server.
-    // ⚠️ We instantiate it only in development. (It isn't needed in production and it
-    // would unnecessarily bloat our production server.)
-    const vite = await import('vite')
-    const viteDevMiddleware = (
-      await vite.createServer({
-        root,
-        server: { middlewareMode: true }
-      })
-    ).middlewares
-    app.use(viteDevMiddleware)
-  }
+	// Vite integration
+	if (isProduction) {
+		// In production, we need to serve our static assets ourselves.
+		// (In dev, Vite's middleware serves our static assets.)
+		const sirv = (await import("sirv")).default;
+		app.use(sirv(`${root}/dist/client`));
+	} else {
+		const { devMiddleware } = await createDevMiddleware({ root });
+		app.use(devMiddleware);
+	}
 
-  // ...
-  // Other middlewares (e.g. some RPC middleware such as Telefunc)
-  // ...
+	// ...
+	// Other middlewares (e.g. some RPC middleware such as Telefunc)
+	// ...
 
-  // Vike middleware. It should always be our last middleware (because it's a
-  // catch-all middleware superseding any middleware placed after it).
-  app.get('*', async (req, res, next) => {
-    const pageContextInit = {
-      urlOriginal: req.originalUrl
-    }
-    const pageContext = await renderPage(pageContextInit)
-    const { httpResponse } = pageContext
-    if (!httpResponse) {
-      return next()
-    } else {
-      const { body, statusCode, headers, earlyHints } = httpResponse
-      if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
-      headers.forEach(([name, value]) => res.setHeader(name, value))
-      res.status(statusCode)
-      // For HTTP streams use httpResponse.pipe() instead, see https://vike.dev/stream
-      res.send(body)
-    }
-  })
+	// Vike middleware. It should always be our last middleware (because it's a
+	// catch-all middleware superseding any middleware placed after it).
+	app.get("*", async (req, res, next) => {
+		const pageContextInit = {
+			urlOriginal: req.originalUrl,
+		};
+		const pageContext = await renderPage(pageContextInit);
+		const { httpResponse } = pageContext;
+		if (!httpResponse) {
+			return next();
+		} else {
+			const { body, statusCode, headers, earlyHints } = httpResponse;
+			if (res.writeEarlyHints)
+				res.writeEarlyHints({
+					link: earlyHints.map((e) => e.earlyHintLink),
+				});
+			headers.forEach(([name, value]) => res.setHeader(name, value));
+			res.status(statusCode);
+			// For HTTP streams use httpResponse.pipe() instead, see https://vike.dev/stream
+			res.send(body);
+		}
+	});
 
-  const port = process.env.PORT || 3000
-  app.listen(port)
-  console.log(`Server running at http://localhost:${port}`)
+	const port = process.env.PORT || 3000;
+	app.listen(port);
+	console.log(`Server running at http://localhost:${port}`);
 }

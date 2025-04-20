@@ -107,14 +107,10 @@ function Page() {
 							drawHelper: new DrawHelper(
 								context,
 								imageData,
-								canvas.width,
-								0,
-								0
+								canvas.width
 							),
 							quadTree: new QuadTree(
 								imageData,
-								0,
-								0,
 								canvas.height,
 								canvas.width
 							),
@@ -193,7 +189,7 @@ function Page() {
 
 		if (quadTree) {
 			const intervalID = setInterval(() => {
-				setIterations(quadTree.getIterations());
+				setIterations(quadTree.iterations);
 			}, 50);
 
 			return () => {
@@ -209,7 +205,7 @@ function Page() {
 					Quad Tree Image
 				</h1>
 				<canvas
-					className="image mb-4"
+					className="image mb-4 border-4 border-black"
 					width={canvasWidth}
 					height={canvasHeight}
 					ref={canvasRef}
@@ -275,4 +271,4 @@ function Page() {
 	);
 }
 
-export { Page };
+export default Page;

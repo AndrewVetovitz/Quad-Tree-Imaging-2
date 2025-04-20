@@ -12,32 +12,32 @@ const compareQuadTreeNodes: ICompare<IQuadTreeNode> = (
 class QuadTree {
 	imageData: ImageData;
 	pq!: PriorityQueue<QuadTreeNode>;
-	iterations: number;
-	heightOffset: number;
-	widthOffset: number;
-	canvasHeight: number;
-	canvasWidth: number;
+	iterations!: number;
+	height: number;
+	width: number;
 
-	constructor(
-		imageData: ImageData,
-		heightOffset: number,
-		widthOffset: number,
-		canvasHeight: number,
-		canvasWidth: number
-	) {
-		this.iterations = 0;
-		this.widthOffset = widthOffset;
-		this.heightOffset = heightOffset;
+	constructor(imageData: ImageData, height: number, width: number) {
 		this.imageData = structuredClone(imageData);
-		this.canvasHeight = canvasHeight;
-		this.canvasWidth = canvasWidth;
-
-		this.#initPriorityQueue();
+		this.height = height;
+		this.width = width;
+		this.reset();
 	}
 
 	reset() {
 		this.iterations = 0;
-		this.#initPriorityQueue();
+		this.pq = PriorityQueue.fromArray(
+			[
+				new QuadTreeNode(
+					0,
+					0,
+					this.height,
+					this.width,
+					this.imageData,
+					this.width
+				),
+			],
+			compareQuadTreeNodes
+		);
 	}
 
 	step(): Array<QuadTreeNode> {
@@ -67,10 +67,6 @@ class QuadTree {
 		return nodes;
 	}
 
-	getIterations(): number {
-		return this.iterations;
-	}
-
 	#divide(node: QuadTreeNode): Array<QuadTreeNode> {
 		const startx = node.startx;
 		const midx = node.startx + Math.floor((node.endx - node.startx) / 2);
@@ -87,7 +83,7 @@ class QuadTree {
 				midx,
 				midy,
 				this.imageData,
-				this.canvasWidth
+				this.width
 			), // top left
 			new QuadTreeNode(
 				startx,
@@ -95,7 +91,7 @@ class QuadTree {
 				midx,
 				endy,
 				this.imageData,
-				this.canvasWidth
+				this.width
 			), // top right
 			new QuadTreeNode(
 				midx,
@@ -103,7 +99,7 @@ class QuadTree {
 				endx,
 				midy,
 				this.imageData,
-				this.canvasWidth
+				this.width
 			), // bottom left
 			new QuadTreeNode(
 				midx,
@@ -111,25 +107,9 @@ class QuadTree {
 				endx,
 				endy,
 				this.imageData,
-				this.canvasWidth
+				this.width
 			), // bottom right
 		];
-	}
-
-	#initPriorityQueue() {
-		this.pq = PriorityQueue.fromArray(
-			[
-				new QuadTreeNode(
-					0,
-					0,
-					this.canvasHeight,
-					this.canvasWidth,
-					this.imageData,
-					this.canvasWidth
-				),
-			],
-			compareQuadTreeNodes
-		);
 	}
 }
 
