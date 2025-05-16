@@ -1,7 +1,3 @@
 {
-	"tabWidth": 4,
-	"useTabs": true,
-	"semicolons": true,
-	"quotes": false,
-	"jsx-single-quote": true
+  "printWidth": 120
 }

@@ -1,15 +1,17 @@
-import react from "@vitejs/plugin-react";
-import ssr from "vike/plugin";
-import { UserConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import vike from "vike/plugin";
 
-const config: UserConfig = {
-	plugins: [react(), tailwindcss(), ssr({ prerender: true })],
-	server: {
-		watch: {
-			usePolling: true,
-		},
-	},
-};
-
-export default config;
+export default defineConfig({
+  plugins: [vike(), react({}), tailwindcss()],
+  base: "/",
+  build: {
+    target: "es2022",
+  },
+  server: {
+    watch: {
+      usePolling: true,
+    },
+  },
+});
