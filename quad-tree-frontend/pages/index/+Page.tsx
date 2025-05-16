@@ -12,8 +12,8 @@ const FPS: number = 60;
 const DEFAULT_IMAGE_URL = `http://localhost:3000/${DEFAULT_IMAGE}`;
 const DEFAULT_IMAGE_FILENAME = "apple.png";
 
-const canvasHeight = 680;
-const canvasWidth = 680;
+const canvasSizeBig = 700;
+const canvasSizeSmall = 300;
 
 enum CanvasState {
   START,
@@ -217,14 +217,15 @@ function Page() {
         Drag and drop image or click "upload" below to begin
       </div>
 
-      <canvas
-        className="flex justify-center mx-auto mb-4 border-4 border-black"
-        width={canvasWidth}
-        height={canvasHeight}
-        ref={canvasRef}
-      />
+      <div className="flex flex-col justify-center mb-4 xl:mx-[30%] lg:mx-[22.5%] md:mx-[20%] sm:mx-[15%]">
+        <canvas className="border-4 border-black" width={canvasSizeBig} height={canvasSizeBig} ref={canvasRef} />
+        <div className="flex flex-row justify-end">
+          <div className="content-center text-sm mr-2">iterations: {iterations}</div>
+          <div className="content-center text-sm">shapes: {3 * iterations + 1}</div>
+        </div>
+      </div>
 
-      <div className="flex flex-row space-x-4 mx-auto justify-center my-2">
+      <div className="flex flex-wrap space-x-2 space-y-2 md:justify-center max-md:justify-between my-2 max-md:after:flex-auto">
         <>
           <Button
             onClick={() => {
@@ -250,11 +251,6 @@ function Page() {
         <Button onClick={() => setCanvasState(CanvasState.STOP)}>stop</Button>
         <Button onClick={() => setCanvasState(CanvasState.STEP)}>step</Button>
         <Button onClick={() => setCanvasState(CanvasState.RESET)}>reset</Button>
-        <div className="content-center text-sm">iterations: {iterations}</div>
-        <div className="content-center text-sm">shapes: {3 * iterations + 1}</div>
-      </div>
-
-      <div className="flex flex-row space-x-4 mx-auto justify-center my-2">
         <>
           <Button onClick={() => setCanvasState(CanvasState.DOWNLOAD)}>Download</Button>
           <a ref={downloadRef} className="hidden" download />
