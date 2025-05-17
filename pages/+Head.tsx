@@ -7,8 +7,8 @@ export default function HeadDefault() {
       {/* <!--Meta tags--> */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
-      <meta name="description" content="Quad Tree Image manipulation to create " />
-      <meta name="og:description" content="Andrew Vetovitz Personal Site" />
+      <meta name="description" content="Quad Tree Image manipulation to create 2D graphics" />
+      <meta name="og:description" content="Quad Tree Image manipulation to create 2D graphics" />
 
       <link rel="preconnect" href="https://res.cloudinary.com/" crossOrigin="anonymous" />
 

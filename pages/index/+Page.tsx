@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { QuadTree } from "../../helpers/QuadTree/QuadTree";
 import { DrawHelper, FillShape } from "../../helpers/canvas/DrawHelper";
 
-import DEFAULT_IMAGE from "../../assets/apple.png";
 import { downloadFileFromUrl } from "../../helpers/downloadFileFromURL";
 import { Button } from "../../components/Button";
 import { ColorPickButton } from "../../components/ColorPickButton";
 import { DropDownMenu } from "../../components/DropDownMenu";
 
 const FPS: number = 60;
-const DEFAULT_IMAGE_URL = `http://localhost:3000/${DEFAULT_IMAGE}`;
+const DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dg25vxfyl/image/upload/v1747510425/apple_with_stem.png";
 const DEFAULT_IMAGE_FILENAME = "apple.png";
 
 const canvasSizeBig = 700;
@@ -214,7 +213,7 @@ function Page() {
       </h1>
 
       <div className="flex items-center justify-center mb-4 text-base leading-none tracking-tight text-gray-900 dark:text-white">
-        Drag and drop image or click "upload" below to begin
+        Drag and drop image or click &quot;upload&quot; below to begin
       </div>
 
       <div className="flex flex-col justify-center mb-4 xl:mx-[30%] lg:mx-[22.5%] md:mx-[20%] sm:mx-[15%]">
