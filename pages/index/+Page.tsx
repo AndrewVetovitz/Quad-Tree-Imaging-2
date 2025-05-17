@@ -6,12 +6,13 @@ import { downloadFileFromUrl } from "../../helpers/downloadFileFromURL";
 import { Button } from "../../components/Button";
 import { ColorPickButton } from "../../components/ColorPickButton";
 import { DropDownMenu } from "../../components/DropDownMenu";
+import { Link } from "../../components/Link";
 
 const FPS: number = 60;
 const DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dg25vxfyl/image/upload/v1747510425/apple_with_stem.png";
 const DEFAULT_IMAGE_FILENAME = "apple.png";
 
-const canvasSize = 700;
+const canvasSize = 600;
 
 enum CanvasState {
   START,
@@ -215,7 +216,7 @@ function Page() {
         Drag and drop image or click &quot;upload&quot; below to begin
       </div>
 
-      <div className="flex flex-col justify-center mb-4 xl:mx-[30%] lg:mx-[22.5%] md:mx-[20%] sm:mx-[15%]">
+      <div className="flex flex-col justify-center mb-4 xl:mx-[35%] lg:mx-[25%] md:mx-[22.5%] sm:mx-[20%]">
         <canvas className="border-4 border-black" width={canvasSize} height={canvasSize} ref={canvasRef} />
         <div className="flex flex-row justify-end">
           <div className="content-center text-sm mr-2">iterations: {iterations}</div>
@@ -262,7 +263,7 @@ function Page() {
           }}
           color={hexFillColor}
         >
-          Fill Color
+          Background Fill Color
         </ColorPickButton>
         <DropDownMenu
           onChangeOption={(event) => {
@@ -272,10 +273,25 @@ function Page() {
             setCanvasState(CanvasState.SET_SHAPE);
           }}
         >
-          <option value="square">Square</option>
-          <option value="circle">Circle</option>
-          <option value="triangle">Triangle</option>
+          <option className="bg-white text-gray-900" selected={true} value="square">
+            Square
+          </option>
+          <option className="bg-white text-gray-900" value="circle">
+            Circle
+          </option>
+          <option className="bg-white text-gray-900" value="triangle">
+            Triangle
+          </option>
         </DropDownMenu>
+      </div>
+
+      <div className="flex items-center justify-center mb-4 text-base leading-none tracking-tight text-gray-900 dark:text-white">
+        <div>
+          Link to code on Github:{" "}
+          <Link href="https://github.com/AndrewVetovitz/Quad-Tree-Imaging-2">
+            https://github.com/AndrewVetovitz/Quad-Tree-Imaging-2
+          </Link>
+        </div>
       </div>
     </div>
   );
