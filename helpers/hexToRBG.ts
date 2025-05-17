@@ -1,5 +1,4 @@
 // from google search
-
 export function hexToRgb(hex: string) {
   // Remove the '#' if it exists
   hex = hex.replace("#", "");

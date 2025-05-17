@@ -101,8 +101,8 @@ function Page() {
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
             setCanvasHelper({
-              drawHelper: new DrawHelper(context, imageData, canvas.width, hexFillColor),
-              quadTree: new QuadTree(imageData, canvas.height, canvas.width),
+              drawHelper: new DrawHelper(context, imageData, canvas.width, canvas.height),
+              quadTree: new QuadTree(imageData, canvas.width, canvas.height),
               filename: file.name,
             });
           };

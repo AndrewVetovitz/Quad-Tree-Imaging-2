@@ -26,11 +26,11 @@ class QuadTreeNode implements IQuadTreeNode {
   }
 
   getWidth(): number {
-    return this.endy - this.starty;
+    return this.endx - this.startx;
   }
 
   getHeight(): number {
-    return this.endx - this.startx;
+    return this.endy - this.starty;
   }
 }
 
@@ -46,9 +46,11 @@ function calculateRGBAndWeightedError(
   const green: Array<number> = new Array<number>(256).fill(0);
   const blue: Array<number> = new Array<number>(256).fill(0);
 
+  // width
   for (let x = startx; x < endx; x++) {
+    // height
     for (let y = starty; y < endy; y++) {
-      const index = (x * rowWidth + y) * 4;
+      const index = (y * rowWidth + x) * 4;
 
       red[imageData.data[index]]++;
       green[imageData.data[index + 1]]++;
@@ -98,8 +100,8 @@ function calculateRGBAndWeightedError(
   //Other formula that does not work as well
   //const error = rmsRedError * 0.2989 + rmsGreenError * 0.5870 + rmsBlueError * 0.1140;
 
-  const width = endy - starty;
-  const height = endx - startx;
+  const width = endx - startx;
+  const height = endy - starty;
 
   return [averageRed, averageGreen, averageBlue, error * Math.pow(width * height, 0.25)];
 }

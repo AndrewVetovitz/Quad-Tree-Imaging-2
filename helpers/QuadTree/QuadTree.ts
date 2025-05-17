@@ -13,7 +13,7 @@ class QuadTree {
   height: number;
   width: number;
 
-  constructor(imageData: ImageData, height: number, width: number) {
+  constructor(imageData: ImageData, width: number, height: number) {
     this.imageData = structuredClone(imageData);
     this.height = height;
     this.width = width;
@@ -64,8 +64,8 @@ class QuadTree {
 
     return [
       new QuadTreeNode(startx, starty, midx, midy, this.imageData, this.width), // top left
-      new QuadTreeNode(startx, midy, midx, endy, this.imageData, this.width), // top right
-      new QuadTreeNode(midx, starty, endx, midy, this.imageData, this.width), // bottom left
+      new QuadTreeNode(midx, starty, endx, midy, this.imageData, this.width), // top right
+      new QuadTreeNode(startx, midy, midx, endy, this.imageData, this.width), // bottom left
       new QuadTreeNode(midx, midy, endx, endy, this.imageData, this.width), // bottom right
     ];
   }

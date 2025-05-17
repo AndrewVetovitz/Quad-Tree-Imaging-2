@@ -1,44 +1,25 @@
-import { hexToRgb } from "../hexToRBG";
 import { QuadTreeNode } from "../QuadTree/QuadTreeNode";
+import { rgbToHex } from "../RGBToHex";
 
 export type FillShape = "square" | "circle" | "triangle";
 
 class DrawHelper {
   context: CanvasRenderingContext2D;
   canvasWidth: number;
+  canvasHeight: number;
   imageData: ImageData;
   imageDataCopy: ImageData;
   #hexFillColor: string;
   #fillShape: FillShape;
 
-  constructor(context: CanvasRenderingContext2D, imageData: ImageData, canvasWidth: number, hexFillColor: string) {
+  constructor(context: CanvasRenderingContext2D, imageData: ImageData, canvasWidth: number, canvasHeight: number) {
     this.context = context;
     this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
     this.imageData = imageData;
     this.imageDataCopy = structuredClone(imageData);
-    this.#hexFillColor = hexFillColor;
+    this.#hexFillColor = "#ffffff"; // default white
     this.#fillShape = "square";
-  }
-
-  drawBorder(startx: number, starty: number, endx: number, endy: number, hexColor: string) {
-    const { red, green, blue } = hexToRgb(hexColor);
-
-    this.drawRect(startx, starty, startx + 1, endy, red, green, blue); // top
-    this.drawRect(endx - 1, starty, endx, endy, red, green, blue); // bottom
-    this.drawRect(startx, starty, endx, starty + 1, red, green, blue); // left
-    this.drawRect(startx, endy - 1, endx, endy, red, green, blue); // right
-  }
-
-  drawRect(startx: number, starty: number, endx: number, endy: number, red: number, green: number, blue: number) {
-    for (let x = startx; x < endx; x++) {
-      for (let y = starty; y < endy; y++) {
-        const index = (x * this.canvasWidth + y) * 4;
-
-        this.imageData.data[index] = red;
-        this.imageData.data[index + 1] = green;
-        this.imageData.data[index + 2] = blue;
-      }
-    }
   }
 
   drawToCanvas() {
@@ -56,28 +37,44 @@ class DrawHelper {
   }
 
   #drawShape(node: QuadTreeNode, fillShape: FillShape) {
+    // fill background
+    this.context.fillStyle = this.#hexFillColor;
+    this.context.fillRect(node.startx, node.starty, node.getWidth(), node.getHeight());
+
+    this.context.fillStyle = rgbToHex(Math.round(node.red), Math.round(node.green), Math.round(node.blue));
+    // fill shape
     switch (fillShape) {
       case "square": {
-        // TODO
-        // TODO this.context.fillRect(); // todo change to this and other native methods
-        // TODO
-        this.drawRect(node.startx, node.starty, node.endx, node.endy, node.red, node.green, node.blue);
-        this.drawBorder(node.startx, node.starty, node.endx, node.endy, this.#hexFillColor);
-
+        this.context.fillRect(node.startx + 1, node.starty + 1, node.getWidth() - 2, node.getHeight() - 2);
         break;
       }
       case "circle": {
-        console.log("circle not yet supported");
+        this.context.beginPath();
+        this.context.arc(
+          node.startx + node.getWidth() / 2,
+          node.starty + node.getHeight() / 2,
+          node.getWidth() / 2,
+          0,
+          2 * Math.PI,
+        );
+        this.context.fill();
         break;
       }
       case "triangle": {
-        console.log("triangle not yet supported");
+        this.context.beginPath();
+        this.context.moveTo(node.startx, node.endy);
+        this.context.lineTo(node.startx + node.getWidth() / 2, node.starty);
+        this.context.lineTo(node.endx, node.endy);
+        this.context.fill();
         break;
       }
       default: {
-        console.log(`shape ${fillShape} not supported`);
+        console.error(`shape ${fillShape} not supported`);
       }
     }
+
+    // save image data
+    this.imageData = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   setHexFillColor(hexFillColor: string) {
