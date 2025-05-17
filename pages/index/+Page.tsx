@@ -11,8 +11,7 @@ const FPS: number = 60;
 const DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dg25vxfyl/image/upload/v1747510425/apple_with_stem.png";
 const DEFAULT_IMAGE_FILENAME = "apple.png";
 
-const canvasSizeBig = 700;
-const canvasSizeSmall = 300;
+const canvasSize = 700;
 
 enum CanvasState {
   START,
@@ -217,7 +216,7 @@ function Page() {
       </div>
 
       <div className="flex flex-col justify-center mb-4 xl:mx-[30%] lg:mx-[22.5%] md:mx-[20%] sm:mx-[15%]">
-        <canvas className="border-4 border-black" width={canvasSizeBig} height={canvasSizeBig} ref={canvasRef} />
+        <canvas className="border-4 border-black" width={canvasSize} height={canvasSize} ref={canvasRef} />
         <div className="flex flex-row justify-end">
           <div className="content-center text-sm mr-2">iterations: {iterations}</div>
           <div className="content-center text-sm">shapes: {3 * iterations + 1}</div>
