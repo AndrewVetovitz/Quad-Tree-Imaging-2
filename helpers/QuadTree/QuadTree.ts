@@ -53,6 +53,43 @@ class QuadTree {
     return nodes;
   }
 
+  stepCordinate(x: number, y: number): Array<QuadTreeNode> {
+    if (this.pq.isEmpty()) {
+      return [];
+    }
+
+    const clickedNodes = this.pq.remove((node: QuadTreeNode) => {
+      return node.startx <= x && node.endx >= x && node.starty <= y && node.endy >= y;
+    });
+
+    if (clickedNodes.length == 0) {
+      return [];
+    }
+
+    const nodes: QuadTreeNode[] = [];
+
+    for (let i = 0; i < clickedNodes.length; i++) {
+      const node = clickedNodes[i];
+      nodes.push(...this.#divide(node));
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      this.pq.push(nodes[i]);
+    }
+
+    //making sure the divisions amount does not become too small, dividing a uniform image
+    while (
+      !this.pq.isEmpty() &&
+      (this.pq.front()!.getWidth() < 2 || this.pq.front()!.getHeight() < 2 || this.pq.front()!.error <= 0.5)
+    ) {
+      this.pq.pop();
+    }
+
+    this.iterations += nodes.length / 4;
+
+    return nodes;
+  }
+
   #divide(node: QuadTreeNode): Array<QuadTreeNode> {
     const startx = node.startx;
     const midx = node.startx + Math.floor((node.endx - node.startx) / 2);

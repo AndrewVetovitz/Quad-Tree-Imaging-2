@@ -19,6 +19,7 @@ enum CanvasState {
   STOP,
   RESET,
   STEP,
+  STEP_CORD,
   DOWNLOAD,
   SET_SHAPE,
   SET_FILL,
@@ -38,6 +39,7 @@ function Page() {
     filename: string;
   } | null>(null);
   const [iterations, setIterations] = useState<number>(0);
+  const [stepCordinates, setStepCordinates] = useState<[] | [number, number]>([]);
   const [canvasState, setCanvasState] = useState<CanvasState>(CanvasState.STOP);
 
   // set default image
@@ -119,6 +121,23 @@ function Page() {
     }
   }
 
+  function canvasClick(event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
+    if (!canvasRef.current || canvasState != CanvasState.STOP) {
+      return;
+    }
+
+    const rect = canvasRef.current.getBoundingClientRect();
+
+    const elemLeft = canvasRef.current.offsetLeft;
+    const elemTop = canvasRef.current.offsetTop;
+
+    const x = Math.round((canvasRef.current.width * (event.pageX - elemLeft)) / rect.width);
+    const y = Math.round((canvasRef.current.height * (event.pageY - elemTop)) / rect.height);
+
+    setStepCordinates([x, y]);
+    setCanvasState(CanvasState.STEP_CORD);
+  }
+
   useEffect(() => {
     if (!canvasHelper) {
       return;
@@ -147,6 +166,17 @@ function Page() {
       case CanvasState.STEP: {
         drawHelper.updateNodes(quadTree.step());
         drawHelper.drawToCanvas();
+        setCanvasState(CanvasState.STOP);
+        break;
+      }
+      case CanvasState.STEP_CORD: {
+        if (stepCordinates.length != 2) {
+          return;
+        }
+
+        drawHelper.updateNodes(quadTree.stepCordinate(stepCordinates[0], stepCordinates[1]));
+        drawHelper.drawToCanvas();
+        setStepCordinates([]);
         setCanvasState(CanvasState.STOP);
         break;
       }
@@ -217,7 +247,13 @@ function Page() {
       </div>
 
       <div className="flex flex-col justify-center mb-4 xl:mx-[35%] lg:mx-[25%] md:mx-[22.5%] sm:mx-[20%]">
-        <canvas className="border-4 border-black" width={canvasSize} height={canvasSize} ref={canvasRef} />
+        <canvas
+          className="border-4 border-black"
+          onClick={canvasClick}
+          width={canvasSize}
+          height={canvasSize}
+          ref={canvasRef}
+        />
         <div className="flex flex-row justify-end">
           <div className="content-center text-sm mr-2">iterations: {iterations}</div>
           <div className="content-center text-sm">shapes: {3 * iterations + 1}</div>
