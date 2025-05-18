@@ -1,4 +1,1 @@
-./main
-hello.wasm
-hello.js
-hello.html
+target/

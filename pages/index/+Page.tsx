@@ -91,7 +91,7 @@ function Page() {
             return;
           }
 
-          const context = canvas.getContext("2d")!;
+          const context = canvas.getContext("2d", { willReadFrequently: true })!;
 
           image.src = event.target.result;
           image.onload = () => {
@@ -273,7 +273,7 @@ function Page() {
             setCanvasState(CanvasState.SET_SHAPE);
           }}
         >
-          <option className="bg-white text-gray-900" selected={true} value="square">
+          <option className="bg-white text-gray-900" value="square">
             Square
           </option>
           <option className="bg-white text-gray-900" value="circle">

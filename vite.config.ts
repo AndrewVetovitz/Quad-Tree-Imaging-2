@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [vike(), react({}), tailwindcss()],
   base: "/static/quad-tree/",
   build: {
-    target: "es2022",
+    target: "esnext",
   },
   server: {
     watch: {
