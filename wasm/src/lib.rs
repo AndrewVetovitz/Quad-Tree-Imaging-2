@@ -1,5 +1,9 @@
 // mod canvas;
+mod quad_tree;
+mod quad_tree_node;
 mod utils;
+mod draw_helper;
+mod to_rgb_str;
 
 use wasm_bindgen::prelude::*;
 
